@@ -2,9 +2,9 @@
 Program name: homework4.js
 Name: Jose Miguel Zuniga
 Date Created: 10/20/25
-Date Last Edited: 11/14/2025
-Version: 2.2
-Description: Homework 4 JS
+Date Last Edited: 12/06/2025
+Version: 4.0
+Description: Homework 4 JS with all validation functions
 */
 
 // Display today's date
