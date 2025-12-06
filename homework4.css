@@ -1,10 +1,10 @@
 /*
-Program name: homework3.css
+Program name: homework4.css
 Name: Jose Miguel Zuniga
 Date Created: 09/23/2025
-Date Last Edited: 10/20/2025
-Version: 1.1
-Description: CSS for index.html 
+Date Last Edited: 12/06/2025
+Version: 2.0
+Description: CSS for homework4.html 
  */
 * {
     font-family: "Times New Roman", serif;
@@ -12,12 +12,15 @@ Description: CSS for index.html
     padding: 0;
 }
 body {
-    background-color: #E5E7EB; /* light gray hex */
+    background-color: #E5E7EB;
     text-align: center;
-    padding: 20px;
+    padding-top: 150px;
+    padding-bottom: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 main {
-    background-color: #FFFFFF; /* white hex */
+    background-color: #FFFFFF;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,9 +30,52 @@ main {
     width: 90%;
     max-width: 800px;
 }
+
+/* Header Styles */
 header {
     margin-bottom: 20px;
 }
+.sticky-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    text-align: center;
+}
+#welcomeMessage {
+    color: #0066cc;
+    font-weight: bold;
+    margin: 10px 0;
+}
+#resetLink {
+    color: #cc0000;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Footer Styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    text-align: center;
+    color: #0A192F;
+}
+#footer-logo {
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+/* Form Styles */
 form {
     display: flex;
     flex-direction: column;
@@ -37,18 +83,18 @@ form {
     align-items: center;
 }
 #logo {
-    width: 90px;
+    width: 60px;
     height: auto;
     margin-bottom: 10px;
 }
 h1 {
     font-size: 28px;
-    color: #1E3A5F; /* navy hex */
+    color: #1E3A5F;
     margin-bottom: 10px;
 }
 header p {
     font-size: 16px;
-    color: #0A192F; /* dark blue hex */
+    color: #0A192F;
 }
 table {
     width: 100%;
@@ -58,7 +104,7 @@ table {
 label {
     display: block;
     margin-bottom: 8px;
-    color: #0A192F; /* dark blue hex */
+    color: #0A192F;
     font-weight: bold;
     text-align: left;
 }
@@ -70,7 +116,7 @@ select {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #A7F3D0; /* mint green hex */
+    border: 1px solid #A7F3D0;
     border-radius: 4px;
     font-size: 14px;
 }
@@ -79,7 +125,7 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 textarea:focus,
 select:focus {
-    border-color: #10B981; /* emerald green hex */
+    border-color: #10B981;
     outline: none;
 }
 textarea {
@@ -96,27 +142,24 @@ input[type="checkbox"] {
     margin-right: 8px;
 }
 
+/* Fieldset Styles */
 fieldset {
-    border: 1px solid #A7F3D0; /* mint green hex */
+    border: 1px solid #A7F3D0;
     border-radius: 4px;
     padding: 15px;
     margin: 10px 0;
 }
-
 fieldset legend {
-    color: #0A192F; /* dark blue hex */
+    color: #0A192F;
     font-weight: bold;
     padding: 0 10px;
 }
-
 fieldset label {
     display: block;
     margin-bottom: 10px;
     text-align: left;
     font-weight: normal;
 }
-
-/* Style for the "Other" text input within checkbox */
 #otherCondition {
     width: auto;
     display: inline-block;
@@ -124,6 +167,8 @@ fieldset label {
     padding: 5px;
     vertical-align: middle;
 }
+
+/* Slider Styles */
 .slider {
     text-align: center;
     margin: 20px 0;
@@ -136,8 +181,10 @@ fieldset label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
-    color: #10B981; /* emerald green hex */
+    color: #10B981;
 }
+
+/* Button Styles */
 .buttons {
     text-align: center;
     margin-top: 20px;
@@ -152,23 +199,21 @@ input[type="submit"] {
     transition: background-color 0.3s ease;
 }
 input[type="reset"] {
-    background-color: #3B82F6; /* blue hex */
+    background-color: #3B82F6;
     color: #fff;
     margin-right: 10px;
 }
 input[type="reset"]:hover {
-    background-color: #1E3A5F; /* navy hex */
+    background-color: #1E3A5F;
 }
 input[type="submit"] {
-    background-color: #10B981; /* emerald green hex */
+    background-color: #10B981;
     color: #fff;
     margin-right: 10px;
 }
 input[type="submit"]:hover {
-    background-color: #0A192F; /* dark blue hex*/
+    background-color: #0A192F;
 }
-
-/* Button styles for Review and Validate buttons */
 input[type="button"] {
     padding: 10px 20px;
     border: none;
@@ -178,41 +223,31 @@ input[type="button"] {
     transition: background-color 0.3s ease;
     margin-right: 10px;
 }
-
-/* Review button - purple/violet color */
 input[type="button"][value="Review"] {
-    background-color: #8B5CF6; /* violet hex */
+    background-color: #8B5CF6;
     color: #fff;
 }
-
 input[type="button"][value="Review"]:hover {
-    background-color: #6D28D9; /* darker violet hex */
+    background-color: #6D28D9;
 }
-
-/* Validate button - orange/amber color */
 input[type="button"][value="Validate"] {
-    background-color: #F59E0B; /* amber hex */
+    background-color: #F59E0B;
     color: #fff;
 }
-
 input[type="button"][value="Validate"]:hover {
-    background-color: #D97706; /* darker amber hex */
+    background-color: #D97706;
 }
 
-footer {
-    text-align: center;
-    margin-top: 30px;
-    color: #0A192F; /* dark blue hex*/
+/* Remember Me Section */
+.remember-me-section {
+    margin: 10px 0;
 }
-#footer-logo {
-    width: 100px;
-    height: auto;
-    margin-bottom: 10px;
-}
+
+/* Table Styles */
 .form th {
     text-align: center;
     font-size: 24px;
-    color: #1E3A5F; /* navy hex*/
+    color: #1E3A5F;
     padding-bottom: 20px;
 }
 .state-zip-group {
@@ -227,6 +262,8 @@ footer {
 td {
     padding: 10px;
 }
+
+/* Review Area Styles */
 .thankyou {
     align-items: center;
     font-size: 30px;
@@ -237,11 +274,13 @@ td {
 }
 #reviewArea .outputdata {
     font-style: italic;
-    color: #0A192F; /* dark blue hex*/
-    background-color: #A7F3D0; /* mint green hex*/
+    color: #0A192F;
+    background-color: #A7F3D0;
 }
+
+/* Error Message Styles */
 .error-message {
-    color: #3B82F6; /* blue hex */
+    color: #3B82F6;
     font-size: 0.8em;
     display: block;
     margin-top: 5px;
