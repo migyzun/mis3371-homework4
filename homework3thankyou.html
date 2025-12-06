@@ -1,0 +1,68 @@
+<!--
+Program name: homework3thankyou.html
+Name: Jose Miguel Zuniga
+Date Created: 11/14/2025
+Date Last Edited: 11/14/2025
+Version: 1.1
+Description: Homework 3 thank you page
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank you!</title>
+    <link href="homework3.css" rel="stylesheet">
+</head>
+<body>
+    <header style="text-align: center;">
+        <img id="logo" src="logo.jpg" alt="company logo" />
+        <h1>Divine Heaven Clinic</h1>
+        <p>Today is: <span id="date"></span></p>
+        <!-- JavaScript for displaying dynamic date -->
+        <script>
+            const dateElement = document.getElementById('date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('en-US', options);
+            dateElement.textContent = today;
+        </script>
+    </header>
+    <hr>
+    
+    <!-- Form -->
+    <main>
+        <div class="form-container" style="text-align: center;">
+            <table class="output" style="margin: 0 auto;">
+                <tr>
+                    <td colspan="2" align="center">
+                        <h2>Thank you for your submission.</h2>
+                        <p>We will be contacting you shortly.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <!-- Return to Home Page form -->
+                        <form action="homework3.html">
+                            <input type="submit" value="Return to Home Page" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    
+    <hr>
+    
+    <!-- Footer -->
+    <footer>
+        <div>
+            <a href="https://www.uh.edu/">
+                <img id="footer-logo" src="logo.jpg" alt="Footer Logo" />
+            </a>
+            <p><a href="mailto:migyzuniga@gmail.com">migyzuniga@gmail.com</a></p>
+            <p><a href="mailto:migyzuniga@gmail.com" class="contact">Contact Us!</a></p>
+            <p>9999 Elgin Rd, Houston, TX 77004</p>
+        </div>
+    </footer>
+</body>
+</html>
