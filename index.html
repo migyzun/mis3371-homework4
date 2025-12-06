@@ -3,7 +3,7 @@ Program name: homework4.html
 Name: Jose Miguel Zuniga
 Date Created: 09/23/2025
 Date Last Edited: 12/06/2025
-Version: 3.0
+Version: 4.0
 Description: This is a form that will collect the users information with Fetch API, iFrames, Cookies, and Local Storage
 -->
 <!DOCTYPE html>
@@ -432,7 +432,276 @@ Description: This is a form that will collect the users information with Fetch A
     </footer>
 
     <script src="homework3.js"></script>
-    <script src="homework4_additions.js"></script>
+
+    <!-- COOKIE AND LOCAL STORAGE SCRIPT -->
+    <script>
+    // ============================================
+    // FETCH API - Load States Dropdown
+    // ============================================
+    async function loadStates() {
+        try {
+            const response = await fetch('states.json');
+            const states = await response.json();
+            
+            const stateSelect = document.getElementById('state');
+            stateSelect.innerHTML = '<option value="">Select a State</option>';
+            
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state.abbreviation;
+                option.textContent = state.name;
+                stateSelect.appendChild(option);
+            });
+            
+            console.log('States loaded successfully');
+        } catch (error) {
+            console.error('Error loading states:', error);
+        }
+    }
+
+    // ============================================
+    // FETCH API - Load Medical Conditions
+    // ============================================
+    async function loadMedicalConditions() {
+        try {
+            const response = await fetch('conditions.json');
+            const conditions = await response.json();
+            
+            const container = document.getElementById('conditionsContainer');
+            container.innerHTML = '';
+            
+            conditions.forEach(condition => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = condition.id;
+                checkbox.name = 'medicalConditions';
+                checkbox.value = condition.value;
+                checkbox.onchange = function() {
+                    saveToLocalStorage();
+                };
+                
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(' ' + condition.label));
+                
+                if (condition.id === 'other') {
+                    const textInput = document.createElement('input');
+                    textInput.type = 'text';
+                    textInput.maxLength = 30;
+                    textInput.placeholder = 'Specify...';
+                    textInput.oninput = function() {
+                        saveToLocalStorage();
+                    };
+                    label.appendChild(document.createTextNode(' '));
+                    label.appendChild(textInput);
+                }
+                
+                container.appendChild(label);
+            });
+            
+            console.log('Medical conditions loaded successfully');
+        } catch (error) {
+            console.error('Error loading medical conditions:', error);
+        }
+    }
+
+    // ============================================
+    // COOKIE FUNCTIONS 
+    // ============================================
+    function setCookie(name, value, hours) {
+        var expires = "";
+        if (hours) {
+            var date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000)); 
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        console.log(`Cookie set: ${name}=${value} (expires in ${hours} hours)`);
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        console.log(`Cookie deleted: ${name}`);
+    }
+
+    function isRememberMeChecked() {
+        return document.getElementById("rememberMe").checked;
+    }
+
+    // ============================================
+    // LOCAL STORAGE FUNCTIONS
+    // ============================================
+    function saveToLocalStorage() {
+        if (!isRememberMeChecked()) {
+            return;
+        }
+
+        const formData = {
+            userID: document.getElementById("userID").value,
+            firstName: document.getElementById("firstName").value,
+            middleInitial: document.getElementById("middleInitial").value,
+            lastName: document.getElementById("lastName").value,
+            dobMonth: document.getElementById("dobMonth").value,
+            dobDay: document.getElementById("dobDay").value,
+            dobYear: document.getElementById("dobYear").value,
+            address1: document.getElementById("address1").value,
+            address2: document.getElementById("address2").value,
+            city: document.getElementById("city").value,
+            state: document.getElementById("state").value,
+            zipCode: document.getElementById("zipCode").value,
+            email: document.getElementById("email").value,
+            phoneNumber: document.getElementById("phoneNumber").value,
+            description: document.getElementById("description").value,
+            painLevel: document.getElementById("slider").value
+        };
+
+        const gender = document.querySelector('input[name="msex"]:checked');
+        if (gender) formData.gender = gender.value;
+
+        const marital = document.querySelector('input[name="marital_status"]:checked');
+        if (marital) formData.maritalStatus = marital.value;
+
+        const insurance = document.querySelector('input[name="insurance"]:checked');
+        if (insurance) formData.insurance = insurance.value;
+
+        const conditions = [];
+        document.querySelectorAll('input[name="medicalConditions"]:checked').forEach(cb => {
+            conditions.push(cb.value);
+        });
+        formData.medicalConditions = conditions;
+
+        localStorage.setItem('patientFormData', JSON.stringify(formData));
+    }
+
+    function loadFromLocalStorage() {
+        const savedData = localStorage.getItem('patientFormData');
+        if (!savedData) return;
+
+        try {
+            const formData = JSON.parse(savedData);
+            
+            if (formData.userID) document.getElementById("userID").value = formData.userID;
+            if (formData.firstName) document.getElementById("firstName").value = formData.firstName;
+            if (formData.middleInitial) document.getElementById("middleInitial").value = formData.middleInitial;
+            if (formData.lastName) document.getElementById("lastName").value = formData.lastName;
+            if (formData.dobMonth) document.getElementById("dobMonth").value = formData.dobMonth;
+            if (formData.dobDay) document.getElementById("dobDay").value = formData.dobDay;
+            if (formData.dobYear) document.getElementById("dobYear").value = formData.dobYear;
+            if (formData.address1) document.getElementById("address1").value = formData.address1;
+            if (formData.address2) document.getElementById("address2").value = formData.address2;
+            if (formData.city) document.getElementById("city").value = formData.city;
+            if (formData.state) document.getElementById("state").value = formData.state;
+            if (formData.zipCode) document.getElementById("zipCode").value = formData.zipCode;
+            if (formData.email) document.getElementById("email").value = formData.email;
+            if (formData.phoneNumber) document.getElementById("phoneNumber").value = formData.phoneNumber;
+            if (formData.description) document.getElementById("description").value = formData.description;
+            if (formData.painLevel) {
+                document.getElementById("slider").value = formData.painLevel;
+                document.getElementById("painValue").textContent = formData.painLevel;
+            }
+
+            if (formData.gender) {
+                const genderRadio = document.querySelector(`input[name="msex"][value="${formData.gender}"]`);
+                if (genderRadio) genderRadio.checked = true;
+            }
+            if (formData.maritalStatus) {
+                const maritalRadio = document.querySelector(`input[name="marital_status"][value="${formData.maritalStatus}"]`);
+                if (maritalRadio) maritalRadio.checked = true;
+            }
+            if (formData.insurance) {
+                const insuranceRadio = document.querySelector(`input[name="insurance"][value="${formData.insurance}"]`);
+                if (insuranceRadio) insuranceRadio.checked = true;
+            }
+
+            if (formData.medicalConditions && Array.isArray(formData.medicalConditions)) {
+                formData.medicalConditions.forEach(condition => {
+                    const checkbox = document.querySelector(`input[name="medicalConditions"][value="${condition}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+        } catch (error) {
+            console.error('Error loading from localStorage:', error);
+        }
+    }
+
+    function clearLocalStorage() {
+        localStorage.removeItem('patientFormData');
+    }
+
+    function handleRememberMe() {
+        if (isRememberMeChecked()) {
+            saveToLocalStorage();
+        } else {
+            clearLocalStorage();
+            deleteCookie('firstName');
+        }
+    }
+
+    // ============================================
+    // PAGE LOAD 
+    // ============================================
+    window.addEventListener('DOMContentLoaded', function() {
+        console.log('Page loaded');
+        
+        loadStates();
+        loadMedicalConditions();
+        
+        var firstName = getCookie('firstName');
+        if (firstName) {
+            document.getElementById("welcomeMessage").innerText = "Welcome back, " + firstName + "!";
+            document.getElementById("resetLink").innerText = "Not " + firstName + "? Click here to start as a NEW USER.";
+            document.getElementById("resetLink").style.display = "block";
+
+            if (isRememberMeChecked()) {
+                loadFromLocalStorage();
+            }
+        } else {
+            document.getElementById("welcomeMessage").innerText = "Welcome New User!";
+            document.getElementById("resetLink").style.display = "none";
+        }
+
+        document.getElementById("resetLink").addEventListener("click", function(e) {
+            e.preventDefault();
+            
+            deleteCookie('firstName');
+            clearLocalStorage();
+            
+            document.getElementById('patientForm').reset();
+            clearAllErrors();
+            
+            document.getElementById("welcomeMessage").innerText = "Welcome New User!";
+            document.getElementById("resetLink").style.display = "none";
+            document.getElementById("rememberMe").checked = false;
+        });
+
+        document.getElementById("patientForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            var firstName = document.getElementById("firstName").value;
+            
+            if (isRememberMeChecked()) {
+                setCookie('firstName', firstName, 48);
+                saveToLocalStorage();
+            } else {
+                deleteCookie('firstName');
+                clearLocalStorage();
+            }
+            
+            window.location.href = 'homework3thankyou.html';
+        });
+    });
+    </script>
 
 </body>
 </html>
