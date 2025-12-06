@@ -1,10 +1,10 @@
 /*
-Program name: homework3.js
+Program name: homework4.js
 Name: Jose Miguel Zuniga
 Date Created: 10/20/25
 Date Last Edited: 11/14/2025
 Version: 2.2
-Description: Homework 3 JS
+Description: Homework 4 JS
 */
 
 // Display today's date
