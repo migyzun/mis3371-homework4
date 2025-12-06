@@ -2,9 +2,9 @@
 Program name: homework4.html
 Name: Jose Miguel Zuniga
 Date Created: 09/23/2025
-Date Last Edited: 11/14/2025
-Version: 2.3
-Description: This is a form that will collect the users information and use it to create a profile with on-the-fly validation
+Date Last Edited: 12/06/2025
+Version: 3.0
+Description: This is a form that will collect the users information with Fetch API, iFrames, Cookies, and Local Storage
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -16,14 +16,29 @@ Description: This is a form that will collect the users information and use it t
     <title>Homework 4 - HTML Form</title>
 </head>
 <body>
-    <header style="text-align: center;">
+    <!-- Header -->
+    <header class="sticky-header">
         <img id="logo" src="logo.jpg" alt="company logo" />
         <h1>Divine Heaven Clinic</h1>
         <p>Today is: <span id="currentDate"></span></p>
+        <p id="welcomeMessage">Welcome New User!</p>
+        <a href="#" id="resetLink" style="display: none;">Not [Name]? Click here to start as a NEW USER.</a>
     </header>
     <hr>
    
     <main>
+        <!-- Map iframe -->
+        <div style="text-align: center; margin: 20px 0;">
+            <h3>Our Location</h3>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3464.1234567890!2d-95.3698!3d29.7604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDQ1JzM3LjQiTiA5NcKwMjInMTEuMyJX!5e0!3m2!1sen!2sus!4v1234567890" 
+                    width="600" 
+                    height="200" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+            </iframe>
+        </div>
+        
         <table>              
             <form id="patientForm" action="homework3thankyou.html" method="get">
                 <div class="format">
@@ -36,8 +51,8 @@ Description: This is a form that will collect the users information and use it t
                         <td><input
                             type="text" id="userID" name="userID" size="15" minlength="5" maxlength="20" placeholder="Enter Username"  
                             title="Username must be 5-20 characters, start with a letter, and contain only letters, numbers, underscores, or dashes"
-                            oninput="validateUserID()"
-                            onblur="validateUserID()"
+                            oninput="validateUserID(); saveToLocalStorage();"
+                            onblur="validateUserID(); saveToLocalStorage();"
                             pattern="^[a-zA-Z_-][a-zA-Z0-9_-]{4,29}$"
                             required>
                             <span class="error-message" id="userIDError"></span>
@@ -82,8 +97,8 @@ Description: This is a form that will collect the users information and use it t
                             type="text" id="firstName" name="firstName" size="15" maxlength="30"
                             placeholder="Enter First Name"
                             pattern="[A-Za-z'-]{1,30}"
-                            oninput="validateFirstName()"
-                            onblur="validateFirstName()"
+                            oninput="validateFirstName(); saveToLocalStorage();"
+                            onblur="validateFirstName(); saveToLocalStorage();"
                             title="First name must contain 1 to 30 characters, letters, apostrophes, and dashes only."
                             required>
                             <span class="error-message" id="firstNameError"></span>
@@ -98,8 +113,8 @@ Description: This is a form that will collect the users information and use it t
                             placeholder="M."
                             pattern="[A-Za-z]"
                             title="Please enter a single letter."
-                            oninput="validateMiddleInitial()"
-                            onblur="validateMiddleInitial()">
+                            oninput="validateMiddleInitial(); saveToLocalStorage();"
+                            onblur="validateMiddleInitial(); saveToLocalStorage();">
                             <span class="error-message" id="middleInitialError"></span>
                         </td>
                     </tr>
@@ -115,8 +130,8 @@ Description: This is a form that will collect the users information and use it t
                             pattern="[A-Za-z' -]{1,30}"
                             title="Please enter a valid Last Name (1 to 30 characters)"
                             placeholder="Enter Last Name"
-                            oninput="validateLastName()"
-                            onblur="validateLastName()"
+                            oninput="validateLastName(); saveToLocalStorage();"
+                            onblur="validateLastName(); saveToLocalStorage();"
                             required>
                             <span class="error-message" id="lastNameError"></span>
                         </td>
@@ -127,20 +142,20 @@ Description: This is a form that will collect the users information and use it t
                         <td>
                             <input type="text" id="dobMonth" name="dobMonth" placeholder="MM" maxlength="2" size="2"
                                    title="Month (01-12)" 
-                                   oninput="dobValidation()" 
-                                   onblur="dobValidation()" 
+                                   oninput="dobValidation(); saveToLocalStorage();" 
+                                   onblur="dobValidation(); saveToLocalStorage();" 
                                    required>
                             <span>/</span>
                             <input type="text" id="dobDay" name="dobDay" placeholder="DD" maxlength="2" size="2"
                                    title="Day (01-31)" 
-                                   oninput="dobValidation()" 
-                                   onblur="dobValidation()" 
+                                   oninput="dobValidation(); saveToLocalStorage();" 
+                                   onblur="dobValidation(); saveToLocalStorage();" 
                                    required>
                             <span>/</span>
                             <input type="text" id="dobYear" name="dobYear" placeholder="YYYY" maxlength="4" size="4"
                                    title="Year (not future, not more than 120 years ago)" 
-                                   oninput="dobValidation()" 
-                                   onblur="dobValidation()" 
+                                   oninput="dobValidation(); saveToLocalStorage();" 
+                                   onblur="dobValidation(); saveToLocalStorage();" 
                                    required>
                             <span class="error-message" id="dobError"></span>
                         </td>
@@ -176,8 +191,8 @@ Description: This is a form that will collect the users information and use it t
                             minlength="2"
                             maxlength="30"
                             title="Please enter your address, 2 to 30 characters."
-                            oninput="validateAddress()"
-                            onblur="validateAddress()"
+                            oninput="validateAddress(); saveToLocalStorage();"
+                            onblur="validateAddress(); saveToLocalStorage();"
                             required>
                             <span class="error-message" id="addressError"></span>
                         </td>
@@ -194,8 +209,8 @@ Description: This is a form that will collect the users information and use it t
                             minlength="2" 
                             maxlength="30"
                             title="Please enter address, 2 to 30 characters if provided."
-                            oninput="validateAddress2()"
-                            onblur="validateAddress2()">
+                            oninput="validateAddress2(); saveToLocalStorage();"
+                            onblur="validateAddress2(); saveToLocalStorage();">
                             <span class="error-message" id="address2Error"></span>
                         </td>
                     </tr>
@@ -210,8 +225,8 @@ Description: This is a form that will collect the users information and use it t
                             size="10"
                             minlength="2"
                             maxlength="30"
-                            oninput="validateCity()"
-                            onblur="validateCity()" 
+                            oninput="validateCity(); saveToLocalStorage();"
+                            onblur="validateCity(); saveToLocalStorage();" 
                             required>
                             <span class="error-message" id="cityError"></span>
                         </td>
@@ -220,60 +235,8 @@ Description: This is a form that will collect the users information and use it t
                     <tr>
                         <td class="table"><label for="state">State:</label></td>
                         <td>
-                            <select id="state" name="state" onchange="validateState()" onblur="validateState()" required>
-                                <option value="">Select a State</option>
-                                <option value="AL">Alabama</option>
-                                <option value="AK">Alaska</option>
-                                <option value="AZ">Arizona</option>
-                                <option value="AR">Arkansas</option>
-                                <option value="CA">California</option>
-                                <option value="CO">Colorado</option>
-                                <option value="CT">Connecticut</option>
-                                <option value="DE">Delaware</option>
-                                <option value="DC">District Of Columbia</option>
-                                <option value="FL">Florida</option>
-                                <option value="GA">Georgia</option>
-                                <option value="HI">Hawaii</option>
-                                <option value="ID">Idaho</option>
-                                <option value="IL">Illinois</option>
-                                <option value="IN">Indiana</option>
-                                <option value="IA">Iowa</option>
-                                <option value="KS">Kansas</option>
-                                <option value="KY">Kentucky</option>
-                                <option value="LA">Louisiana</option>
-                                <option value="ME">Maine</option>
-                                <option value="MD">Maryland</option>
-                                <option value="MA">Massachusetts</option>
-                                <option value="MI">Michigan</option>
-                                <option value="MN">Minnesota</option>
-                                <option value="MS">Mississippi</option>
-                                <option value="MO">Missouri</option>
-                                <option value="MT">Montana</option>
-                                <option value="NE">Nebraska</option>
-                                <option value="NV">Nevada</option>
-                                <option value="NH">New Hampshire</option>
-                                <option value="NJ">New Jersey</option>
-                                <option value="NM">New Mexico</option>
-                                <option value="NY">New York</option>
-                                <option value="NC">North Carolina</option>
-                                <option value="ND">North Dakota</option>
-                                <option value="OH">Ohio</option>
-                                <option value="OK">Oklahoma</option>
-                                <option value="OR">Oregon</option>
-                                <option value="PA">Pennsylvania</option>
-                                <option value="PR">Puerto Rico</option>
-                                <option value="RI">Rhode Island</option>
-                                <option value="SC">South Carolina</option>
-                                <option value="SD">South Dakota</option>
-                                <option value="TN">Tennessee</option>
-                                <option value="TX">Texas</option>
-                                <option value="UT">Utah</option>
-                                <option value="VT">Vermont</option>
-                                <option value="VA">Virginia</option>
-                                <option value="WA">Washington</option>
-                                <option value="WV">West Virginia</option>
-                                <option value="WI">Wisconsin</option>
-                                <option value="WY">Wyoming</option>
+                            <select id="state" name="state" onchange="validateState(); saveToLocalStorage();" onblur="validateState(); saveToLocalStorage();" required>
+                                <option value="">Loading states...</option>
                             </select>
                             <span class="error-message" id="stateError"></span>
                         </td>
@@ -291,8 +254,8 @@ Description: This is a form that will collect the users information and use it t
                             minlength="5"
                             maxlength="5"
                             title="Please enter Zip-Code (5 digits)"
-                            oninput="validateZipCode()"
-                            onblur="validateZipCode()"
+                            oninput="validateZipCode(); saveToLocalStorage();"
+                            onblur="validateZipCode(); saveToLocalStorage();"
                             required>
                             <span class="error-message" id="zipCodeError"></span>
                         </td>
@@ -313,8 +276,8 @@ Description: This is a form that will collect the users information and use it t
                             placeholder="name@domain.tld" 
                             maxlength="40"
                             title="Please enter a valid email address"
-                            oninput="validateEmail()"
-                            onblur="validateEmail()"
+                            oninput="validateEmail(); saveToLocalStorage();"
+                            onblur="validateEmail(); saveToLocalStorage();"
                             required>
                             <span class="error-message" id="emailError"></span>
                         </td>
@@ -331,8 +294,8 @@ Description: This is a form that will collect the users information and use it t
                             placeholder="XXX-XXX-XXXX"
                             title="Please enter a valid phone number (XXX-XXX-XXXX)"
                             maxlength="14" 
-                            oninput="formatPhoneNumber()"
-                            onblur="validatePhoneNumber()"
+                            oninput="formatPhoneNumber(); saveToLocalStorage();"
+                            onblur="validatePhoneNumber(); saveToLocalStorage();"
                             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             required>
                             <span class="error-message" id="phoneError"></span>
@@ -343,16 +306,15 @@ Description: This is a form that will collect the users information and use it t
                         <td colspan="2"><hr></td>
                     </tr>
 
-                    <!-- Radio Buttons -->
                     <!-- Gender -->
                     <tr>
                         <td class="table"><label id="gender">Gender:</label></td>
                         <td>
-                            <input type="radio" name="msex" value="Male" onchange="checkFormValidity()">
+                            <input type="radio" name="msex" value="Male" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Male</span>
-                            <input type="radio" name="msex" value="Female" onchange="checkFormValidity()">
+                            <input type="radio" name="msex" value="Female" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Female</span>
-                            <input type="radio" name="msex" value="Other" onchange="checkFormValidity()">
+                            <input type="radio" name="msex" value="Other" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Other</span>
                             <span class="error-message" id="genderError"></span>
                         </td>
@@ -361,11 +323,11 @@ Description: This is a form that will collect the users information and use it t
                     <tr>
                         <td class="table"><label id="marital">What is your marital status?</label></td>
                         <td>
-                            <input type="radio" name="marital_status" value="Single" onchange="checkFormValidity()">
+                            <input type="radio" name="marital_status" value="Single" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Single</span>
-                            <input type="radio" name="marital_status" value="Married" onchange="checkFormValidity()">
+                            <input type="radio" name="marital_status" value="Married" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Married</span>
-                            <input type="radio" name="marital_status" value="Divorced" onchange="checkFormValidity()">
+                            <input type="radio" name="marital_status" value="Divorced" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Divorced</span>
                             <span class="error-message" id="maritalError"></span>
                         </td>
@@ -374,16 +336,16 @@ Description: This is a form that will collect the users information and use it t
                     <tr>
                         <td class="table"><label id="insurance">Do you have insurance?</label></td>
                         <td>
-                            <input type="radio" name="insurance" value="Yes" onchange="checkFormValidity()">
+                            <input type="radio" name="insurance" value="Yes" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Yes</span>
-                            <input type="radio" name="insurance" value="No" onchange="checkFormValidity()">
+                            <input type="radio" name="insurance" value="No" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>No</span>
-                            <input type="radio" name="insurance" value="Unsure" onchange="checkFormValidity()">
+                            <input type="radio" name="insurance" value="Unsure" onchange="checkFormValidity(); saveToLocalStorage();">
                             <span>Unsure</span>
                             <span class="error-message" id="insuranceError"></span>
                         </td>
                     </tr>
-                    <!-- Enter Reason for Visitation -->
+                    <!-- Reason for Visit -->
                     <tr>
                         <td class="table"><label for="description"> What is your reasoning for visiting us today? </label></td>
                         <td><textarea
@@ -393,22 +355,17 @@ Description: This is a form that will collect the users information and use it t
                             cols="50"
                             pattern="^[^\"\\]*$"
                             title="Please avoid using double quotes"
-                            oninput="validateDescription()"
-                            onblur="validateDescription()"></textarea>
+                            oninput="validateDescription(); saveToLocalStorage();"
+                            onblur="validateDescription(); saveToLocalStorage();"></textarea>
                             <span class="error-message" id="descriptionError"></span>
                         </td>
                     </tr>
-                    <!-- Checkboxes -->
+                    <!-- Medical Conditions Checkboxes -->
                     <tr>
                         <td class="check" colspan="2">
-                            <fieldset>
+                            <fieldset id="conditionsFieldset">
                                 <legend>Do you have or have had any of the following?:</legend>
-                                <label><input type="checkbox" id="HeartDisease" name="HeartDisease" value="Heart Disease"> Heart Disease</label>
-                                <label><input type="checkbox" id="Measles" name="Measles" value="Measles"> Measles</label>
-                                <label><input type="checkbox" id="Meningitis" name="Meningitis" value="Meningitis"> Meningitis </label>
-                                <label><input type="checkbox" id="Hepatitis" name="Hepatitis" value="Hepatitis"> Hepatitis</label>
-                                <label><input type="checkbox" id="Cancer" name="Cancer" value="Cancer"> Cancer</label>
-                                <label><input type="checkbox" id="other" name="other" value="Other"> Other <input type="text" maxlength="30" id="otherCondition" name="otherCondition"></label>
+                                <div id="conditionsContainer">Loading conditions...</div>
                             </fieldset>
                         </td>
                     </tr>
@@ -424,11 +381,21 @@ Description: This is a form that will collect the users information and use it t
                                 min="0"
                                 max="10"
                                 value="0"
-                                oninput="updatePainLevel(this.value)">10
+                                oninput="updatePainLevel(this.value); saveToLocalStorage();">10
                                 <br>
                                 Your current pain level: <span id="painValue">0</span>
                                 <span class="error-message" id="painError"></span>
                             </fieldset>
+                        </td>
+                    </tr>
+
+                    <!-- Remember Me Checkbox -->
+                    <tr>
+                        <td class="buttons" colspan="2">
+                            <div class="remember-me-section">
+                                <input type="checkbox" id="rememberMe" name="rememberMe" checked onchange="handleRememberMe()">
+                                <label for="rememberMe"><strong>Remember Me</strong> (saves your information for next visit)</label>
+                            </div>
                         </td>
                     </tr>
        
@@ -449,22 +416,23 @@ Description: This is a form that will collect the users information and use it t
         <div id="validationSummary"></div>
     </main>
     <hr>
+    
+    <!-- Footer -->
     <footer>
         <div>
             <a href="https://www.uh.edu/">
                 <img id="footer-logo" src="logo.jpg" alt="Footer Logo" />
             </a>
             <p>
-                <a href="mailto:migyzuniga@gmail.com">migyzuniga@gmail.com</a>
+                <a href="mailto:migyzuniga@gmail.com">migyzuniga@gmail.com</a> | 
+                <a href="mailto:migyzuniga@gmail.com" class="contact">Contact Us!</a> | 
+                9999 Elgin Rd, Houston, TX 77004
             </p>
-            <p>
-                <a href="mailto:migyzuniga@gmail.com" class="contact">Contact Us!</a>
-            </p>
-            <p>9999 Elgin Rd, Houston, TX 77004</p>
         </div>
     </footer>
 
     <script src="homework3.js"></script>
+    <script src="homework4_additions.js"></script>
 
 </body>
 </html>
